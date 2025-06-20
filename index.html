@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dog of the Day</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <style>
+    .blink {
+      animation: blink-animation 0.5s infinite;
+    }
+    @keyframes blink-animation {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    button {
+      font-size: 8px;
+      padding: 2px;
+      margin: 1px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1 class="blink">Dog of the Day</h1>
+    
+    <p>
+      Meet <b>Fluffinator 3000</b> — the ultimate canine specimen. 
+      Estimated at 42kg, medium-large, with borderline unpredictable temperament.
+      <br>
+      <button @click="fetchDog">Refresh Dog</button>
+    </p>
+    
+    <img 
+      :src="dogImage" 
+      alt="Random dog picture" 
+      style="width: 200px; height: 200px;" 
+      tabindex="0"
+    />
+    
+    <div>
+      <button @click="alert('Oops!')">A</button>
+      <button @click="alert('Oops!')">B</button>
+      <button @click="alert('Oops!')">C</button>
+      <button @click="alert('Oops!')">D</button>
+      <button @click="alert('Oops!')">E</button>
+      <button @click="alert('Oops!')">F</button>
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          dogImage: 'https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg',
+        };
+      },
+      methods: {
+        async fetchDog() {
+          try {
+            const res = await fetch('https://dog.ceo/api/breeds/image/random');
+            const data = await res.json();
+            this.dogImage = data.message;
+          } catch (err) {
+            alert('Failed to load dog image');
+          }
+        },
+      },
+      mounted() {
+        this.fetchDog();
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>
